@@ -1,0 +1,15 @@
+pluginManagement {
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+    }
+    plugins {
+      id 'io.quarkus' version "${quarkus_gradle_plugins}"
+    }
+}
+
+rootProject.name = 'lixbox-cache'
+
+/** Projet importé */
+include 'lixbox-cache-api'
+include 'lixbox-cache-ui'
