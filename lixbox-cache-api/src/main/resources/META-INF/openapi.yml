@@ -12,7 +12,7 @@ info:
     ## Dépendances
     ### API
     * Nécessite un service Redis.
-    * Peut s'enregistrer dans un annuaire de service lixbox-registry.  
+    * Peut s'enregistrer dans un annuaire de service lixbox-registry.
 
     ### UI
     * Sans objet

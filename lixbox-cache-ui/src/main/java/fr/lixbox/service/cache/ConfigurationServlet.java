@@ -15,7 +15,6 @@
  ******************************************************************************/
 package fr.lixbox.service.cache;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
