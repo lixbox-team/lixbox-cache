@@ -13,7 +13,7 @@
  *   @AUTHOR Ludovic TERRAL
  *
  ******************************************************************************/
-package fr.lixbox.service.registry;
+package fr.lixbox.service.cache;
 
 import static io.restassured.RestAssured.given;
 
