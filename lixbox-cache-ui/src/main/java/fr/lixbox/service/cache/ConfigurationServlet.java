@@ -36,18 +36,25 @@ public class ConfigurationServlet extends HttpServlet
     
     
     @ConfigProperty(name="cache.api.url")     
-    private String cacheApi;
+    String cacheApi;
     @ConfigProperty(name="iam.api.url") 
-    private String iamApi;
+    String iamApi;
 
     
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException 
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
     {
-        Map<String,String> config = new HashMap<>();
-        config.put("cache", cacheApi);
-        config.put("iam", iamApi);
-        response.getWriter().print(JsonUtil.transformObjectToJson(config,false));
+        try
+        {
+            Map<String,String> config = new HashMap<>();
+            config.put("cache", cacheApi);
+            config.put("iam", iamApi);
+            response.getWriter().print(JsonUtil.transformObjectToJson(config,false));
+        }
+        catch(Exception e)
+        {
+            //impossible d'écrire la configuration
+        }
     }
 }
