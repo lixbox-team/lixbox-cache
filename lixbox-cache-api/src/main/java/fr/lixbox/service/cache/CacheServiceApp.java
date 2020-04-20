@@ -36,12 +36,6 @@ public class CacheServiceApp extends Application
     
     
     // ----------- Methode(s) -----------
-    public CacheServiceApp() 
-    {
-    }
-
-    
-    
     @Override
     public Set<Object> getSingletons() 
     {

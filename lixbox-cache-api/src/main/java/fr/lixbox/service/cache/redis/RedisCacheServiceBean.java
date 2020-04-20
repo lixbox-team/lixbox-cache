@@ -429,6 +429,10 @@ public class RedisCacheServiceBean implements CacheService
             redisClient = new Jedis(hostName, Integer.parseInt(port));
             LOG.debug("redisClient is activated");
         }
+        if(redisClient==null)
+        {
+            throw new ProcessusException("UNABLE TO FIND REDIS");
+        }   
         return redisClient;
     } 
 }

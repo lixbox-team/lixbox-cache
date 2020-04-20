@@ -41,7 +41,8 @@ import io.quarkus.runtime.StartupEvent;
 public class CacheServiceRegister 
 {
     // ----------- Attribut(s) -----------  
-    private static final Log LOG = LogFactory.getLog(CacheServiceRegister.class); 
+    private static final Log LOG = LogFactory.getLog(CacheServiceRegister.class);
+    private static final String UNABLE_TO_REGISTER_TXT = "UNABLE TO REGISTER "; 
     
     @Inject @LocalRegistryConfig RegistryServiceClient registryClient;
     @ConfigProperty(name="quarkus.http.port") int hostPort;
@@ -61,11 +62,11 @@ public class CacheServiceRegister
         }
         catch(NullPointerException e)
         {
-            LOG.info("UNABLE TO REGISTER "+CacheService.SERVICE_NAME+"-"+CacheService.SERVICE_VERSION+": absence d'annuaire");
+            LOG.info(UNABLE_TO_REGISTER_TXT+CacheService.SERVICE_NAME+"-"+CacheService.SERVICE_VERSION+": absence d'annuaire");
         }
         catch(Exception e)
         {
-            LOG.error("UNABLE TO REGISTER "+CacheService.SERVICE_NAME+"-"+CacheService.SERVICE_VERSION+": "+ExceptionUtils.getRootCauseMessage(e));
+            LOG.error(UNABLE_TO_REGISTER_TXT+CacheService.SERVICE_NAME+"-"+CacheService.SERVICE_VERSION+": "+ExceptionUtils.getRootCauseMessage(e));
             LOG.error(e);
         }
     }
@@ -81,7 +82,7 @@ public class CacheServiceRegister
         }
         catch(Exception e)
         {
-            LOG.error("UNABLE TO REGISTER "+CacheService.SERVICE_NAME+"-"+CacheService.SERVICE_VERSION+": "+ExceptionUtils.getRootCauseMessage(e));
+            LOG.error(UNABLE_TO_REGISTER_TXT+CacheService.SERVICE_NAME+"-"+CacheService.SERVICE_VERSION+": "+ExceptionUtils.getRootCauseMessage(e));
             LOG.trace(e);
         }
     }
