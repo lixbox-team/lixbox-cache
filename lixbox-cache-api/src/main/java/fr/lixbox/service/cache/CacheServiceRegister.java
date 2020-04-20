@@ -43,7 +43,7 @@ public class CacheServiceRegister
     // ----------- Attribut(s) -----------  
     private static final Log LOG = LogFactory.getLog(CacheServiceRegister.class); 
     
-    @Inject @LocalRegistryConfig private RegistryServiceClient registryClient;
+    @Inject @LocalRegistryConfig RegistryServiceClient registryClient;
     @ConfigProperty(name="quarkus.http.port") int hostPort;
     private String endpointURI;
 
@@ -58,6 +58,10 @@ public class CacheServiceRegister
             endpointURI = "http://" + inetAddress.getHostAddress()+ ":" + hostPort + CacheService.FULL_SERVICE_URI;
             boolean result = registryClient.registerService(CacheService.SERVICE_NAME, CacheService.SERVICE_VERSION, ServiceType.MICRO_PROFILE, endpointURI);
             LOG.info("SERVICE CACHE REGISTRATION IS "+result+" ON "+registryClient.getCurrentRegistryServiceUri());
+        }
+        catch(NullPointerException e)
+        {
+            LOG.info("UNABLE TO REGISTER "+CacheService.SERVICE_NAME+"-"+CacheService.SERVICE_VERSION+": absence d'annuaire");
         }
         catch(Exception e)
         {

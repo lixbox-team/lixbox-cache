@@ -58,8 +58,8 @@ public class RedisCacheServiceBean implements CacheService
     
     private static final String SERVICE_REDIS_TEXT = "LE SERVICE REDIS ";
     
-    @ConfigProperty(name="registry.uri") private String registryUri;
-    @ConfigProperty(name="cache.redis.uri") private String redisUri;
+    @ConfigProperty(name="registry.uri") String registryUri;
+    @ConfigProperty(name="cache.redis.uri") String redisUri;
 
     
     

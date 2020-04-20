@@ -1,0 +1,43 @@
+{
+	"cache": {
+		"application": {
+			"copyright": "Copyright 2018 - {0} designed by Lixbox team",
+			"menu": {
+				"registry": "Cache manager",
+				"settings": "Settings"
+			},
+			"title": "Lixbox cache"
+		},
+		"service": {
+			"action": {
+				"add": {
+					"text": "Add a entry"
+				},
+				"search": {
+					"placeholder": "Search a entry"
+				}
+			},
+			"dialog": {
+				"entry": {
+					"delete": {
+						"text": "Are you sure?",
+						"title": "Delete entry {0}"
+					}
+				}
+			},
+			"entry": {
+				"key": "Entry key",
+				"value": "Value"
+			},
+			"select": "Select a entry",
+			"ui": {
+				"button": {
+					"entry": {
+						"del": "Remove this entry",
+						"save": "Save this entry"
+					}
+				}
+			}
+		}
+	}
+}

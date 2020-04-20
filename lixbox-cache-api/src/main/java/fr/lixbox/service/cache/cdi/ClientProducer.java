@@ -30,7 +30,7 @@ import fr.lixbox.service.registry.client.RegistryServiceClient;
 public class ClientProducer
 {
     // ----------- Attribut(s) -----------  
-    @ConfigProperty(name="registry.uri") private String registryUri;
+    @ConfigProperty(name="registry.uri") String registryUri;
 
     
 
@@ -38,6 +38,15 @@ public class ClientProducer
     @Produces @LocalRegistryConfig
     public RegistryServiceClient getServiceRegistryClient() 
     {
-        return new RegistryServiceClient(registryUri);
+        RegistryServiceClient result = null;
+        try
+        {
+            result = new RegistryServiceClient(registryUri);
+        }
+        catch(Exception e)
+        {
+            //absence de service d'annuaire.
+        }
+        return result;
     }
 }

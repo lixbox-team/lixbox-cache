@@ -1,0 +1,9 @@
+openapi: 3.0.1
+info:
+  title: Lixbox-cache
+  description: Service de gestion de cache
+  version: "8.1.0"
+
+servers:
+  - url: http://localhost:18101/openapi
+    description: dev server
