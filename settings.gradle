@@ -11,5 +11,5 @@ pluginManagement {
 rootProject.name = 'lixbox-cache'
 
 /** Projet importé */
-include 'lixbox-cache-api'
+include 'lixbox-cache-core'
 include 'lixbox-cache-ui'
