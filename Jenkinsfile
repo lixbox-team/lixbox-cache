@@ -15,7 +15,7 @@ def onFailed(e) {
     sh 'export SOURCE_BUILD_NUMBER=${BUILD_NUMBER} && ${WORKSPACE}/gradlew --stacktrace removeRedisContainer'
 }
     
-node('slave-gradle-graalvm') {
+node('slave-gradle-jdk8') {
     stage('Init'){
         echo 'Initialisation started'
         try{
@@ -111,29 +111,29 @@ node('slave-gradle-graalvm') {
         }
         echo 'Distribution for production finished'
     }
-    
-    stage('Expose docker solution'){
-        echo 'Expose docker solution started'
-        retry(2){ 
-            try{
-                withCredentials([usernamePassword(credentialsId: 'DOCKERHUB', usernameVariable: 'JENKINS_USR', passwordVariable: 'JENKINS_PWD')]) {
-                    sh 'export SOURCE_BUILD_NUMBER=${BUILD_NUMBER} && ${WORKSPACE}/gradlew -Pdockerhub_username=${JENKINS_USR} -Pdockerhub_password=${JENKINS_PWD} --stacktrace buildAndPushDockerImages'
-                }
-                if(!currentBuild.result)
-                {
-                   currentBuild.result = 'SUCCESS'
-                   BUILD_STATUS = 'SUCCESS'
-                }
-                def title = JOB_NAME+' - Build # '+BUILD_NUMBER+' - '+BUILD_STATUS+'!';
-                def msg = 'The '+JOB_NAME+' - Build # '+BUILD_NUMBER+' is '+BUILD_STATUS+'. \n Check console output at '+BUILD_URL+' to view the results.';
-                mattermostSend channel: channel, color: 'rgb(184, 255, 184)', endpoint: mattermostUri, message: msg, text: title
-            }
-            catch (e){
+//    
+//    stage('Expose docker solution'){
+//        echo 'Expose docker solution started'
+//        retry(2){ 
+//            try{
+//                withCredentials([usernamePassword(credentialsId: 'DOCKERHUB', usernameVariable: 'JENKINS_USR', passwordVariable: 'JENKINS_PWD')]) {
+//                    sh 'export SOURCE_BUILD_NUMBER=${BUILD_NUMBER} && ${WORKSPACE}/gradlew -Pdockerhub_username=${JENKINS_USR} -Pdockerhub_password=${JENKINS_PWD} --stacktrace buildAndPushDockerImages'
+//                }
+//                if(!currentBuild.result)
+//                {
+//                   currentBuild.result = 'SUCCESS'
+//                   BUILD_STATUS = 'SUCCESS'
+//                }
+//                def title = JOB_NAME+' - Build # '+BUILD_NUMBER+' - '+BUILD_STATUS+'!';
+//                def msg = 'The '+JOB_NAME+' - Build # '+BUILD_NUMBER+' is '+BUILD_STATUS+'. \n Check console output at '+BUILD_URL+' to view the results.';
+//                mattermostSend channel: channel, color: 'rgb(184, 255, 184)', endpoint: mattermostUri, message: msg, text: title
+//            }
+//            catch (e){
 //                sh 'export SOURCE_BUILD_NUMBER=${BUILD_NUMBER} && ${WORKSPACE}/gradlew site uploadSite --stacktrace'
-                onFailed(e);
-                error e
-            }
-        }
-        echo 'Expose docker solution finished'
-    }
+//                onFailed(e);
+//                error e
+//            }
+//        }
+//        echo 'Expose docker solution finished'
+//    }
 }
