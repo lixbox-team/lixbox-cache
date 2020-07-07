@@ -2,7 +2,7 @@
 # lixbox-cache
 
 Ce dépôt contient le µservice de cache
-Le site du service est [ici](https://project-site.service.lixtec.fr/lixbox-cache)  
+Le site du service est [ici](https://project-site.service.dev.lan/lixbox-cache)  
 
 
 ## Dépendances
