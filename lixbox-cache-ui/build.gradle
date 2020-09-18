@@ -89,6 +89,29 @@ project(':lixbox-cache-ui'){
     copyNpm.dependsOn npm_run_build
     jar.dependsOn copyNpm
     quarkusDev.dependsOn copyNpm
+
+    
+    //export quarkus project runner to maven
+    def quarkusRunner = file("$buildDir/libs/${project.name}-${version}.rjar")
+    def quarkusRunnerArtifact = artifacts.add('archives', quarkusRunner) {
+        type 'rjar'
+        builtBy 'quarkusBuild'
+    }    
+    task copyArtefact(type: Copy) {
+        from "$buildDir/${project.name}-${version}-runner.jar"
+        into "$buildDir/libs"
+        rename { String fileName -> "${project.name}-${version}.rjar"}
+    }
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                artifact quarkusRunnerArtifact
+            }
+        }
+    }
+    tasks.quarkusBuild.finalizedBy(copyArtefact);
+    tasks.jar.finalizedBy(quarkusBuild);
+    
     
     
     

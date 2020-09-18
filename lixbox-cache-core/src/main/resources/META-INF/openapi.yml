@@ -3,9 +3,6 @@ openapi: 3.0.1
 info:
   title: Lixbox-cache
   version: "8.1.0"
-  x-logo:
-    url: 'https://redocly.github.io/redoc/petstore-logo.png'
-    altText: Lixbox cache logo
   description: |
     Il s'agit d'un micro-service de cache qui repose sur REDIS.
 
@@ -32,19 +29,4 @@ servers:
   - url: http://localhost:18101/openapi
     description: dev server
 paths:
-  /cache/api/1.0/health:
-    get:
-      responses:
-        "200":
-          description: OK
-  /cache/api/1.0/health/live:
-    get:
-      responses:
-        "200":
-          description: OK
-  /cache/api/1.0/health/ready:
-    get:
-      responses:
-        "200":
-          description: OK
 ...
