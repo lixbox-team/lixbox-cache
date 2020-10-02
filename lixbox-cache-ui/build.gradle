@@ -29,6 +29,22 @@ project(':lixbox-cache-ui'){
         testCompile group: 'io.quarkus', name: 'quarkus-rest-client', version: quarkusVersion
     }
     
+    jar{
+       duplicatesStrategy = DuplicatesStrategy.INCLUDE
+       from('dist') {
+          include '**/*.*'
+            into 'META-INF/resources'
+       }
+   
+       manifest {
+            attributes(
+                "Implementation-Title": project.name, 
+                "Implementation-Version": archiveVersion, 
+                "Implementation-Timestamp": new Date()
+            )
+        }
+    }
+    
     eclipse{
         wtp{
             facet {
@@ -43,22 +59,6 @@ project(':lixbox-cache-ui'){
            property "sonar.projectName", "${project.name}"
            property "sonar.sources","src/main"
            property "sonar.tests","src/test, src/integTest"
-        }
-    }
-    
-    jar{
-       duplicatesStrategy = DuplicatesStrategy.INCLUDE
-       from('dist') {
-          include '**/*.*'
-            into 'META-INF/resources'
-       }
-   
-       manifest {
-            attributes(
-                "Implementation-Title": project.name, 
-                "Implementation-Version": archiveVersion, 
-                "Implementation-Timestamp": new Date()
-            )
         }
     }
 
@@ -113,8 +113,6 @@ project(':lixbox-cache-ui'){
     tasks.jar.finalizedBy(quarkusBuild);
     
     
-    
-    
     //creation de l'image docker
     task pullOpenjdk11Image(type: DockerPullImage, description: "Pull openjdk11 image"){
        image='openjdk:11'
@@ -139,8 +137,6 @@ project(':lixbox-cache-ui'){
     }
     task buildProjectImages(type: DockerBuildImage, group: "docker", description: "build project images") {
         dependsOn createDockerfile
-        buildArgs.put("APP_VERSION","$project.version")
-        buildArgs.put("GRAYLOG_ENV","$config.desc_project.artefact.project")
         images.add("${config.desc_project.artefact.dockerImageKey}/${project.name}:$project.version")
         images.add("${config.desc_project.artefact.dockerImageKey}/${project.name}:latest")
     }
@@ -154,4 +150,5 @@ project(':lixbox-cache-ui'){
     }
     pushProjectImages.dependsOn buildProjectImages
     buildAndPushDockerImages.dependsOn pushProjectImages
+    tasks.clean.dependsOn tasks.npmInstall
 }
