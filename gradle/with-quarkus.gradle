@@ -6,4 +6,10 @@ subprojects {
         into '.'
         rename('pom-default.xml', 'pom.xml')
     }
+    gradle.taskGraph.whenReady { graph ->
+        if (graph.hasTask(check)) {
+            quarkusGenerateCode.enabled = false
+            quarkusGenerateCodeTests.enabled = false
+        }
+    }
 }
