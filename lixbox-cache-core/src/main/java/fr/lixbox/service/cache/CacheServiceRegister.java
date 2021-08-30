@@ -65,7 +65,7 @@ public class CacheServiceRegister
         {
             InetAddress inetAddress = InetAddress.getLocalHost();
             endpointURI = "http://" + inetAddress.getHostAddress()+ ":" + hostPort + CacheService.FULL_SERVICE_URI;
-            boolean result = registryClient.registerService(CacheService.SERVICE_NAME, CacheService.SERVICE_VERSION, ServiceType.MICRO_PROFILE, endpointURI);
+            boolean result = registryClient.registerService(CacheService.SERVICE_NAME, CacheService.SERVICE_VERSION, ServiceType.MICRO_PROFILE, endpointURI,"");
             LOG.info("SERVICE CACHE REGISTRATION IS "+result+" ON "+registryClient.getCurrentRegistryServiceUri());
         }
         catch(NullPointerException e)

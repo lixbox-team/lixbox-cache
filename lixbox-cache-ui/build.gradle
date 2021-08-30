@@ -1,8 +1,8 @@
 import com.bmuschko.gradle.docker.tasks.container.*
 import com.bmuschko.gradle.docker.tasks.image.*
 plugins {
-    id 'com.bmuschko.docker-remote-api' version '6.1.3'
-    id "com.github.node-gradle.node" version "2.2.1"
+    id 'com.bmuschko.docker-remote-api' version "${docker_remote_plugins}"
+    id "com.github.node-gradle.node" version "3.1.0"
     id 'io.quarkus' version "${quarkus_gradle_plugins}"
 }
 project(':lixbox-cache-ui'){
@@ -10,23 +10,21 @@ project(':lixbox-cache-ui'){
         mavenCentral()
     }
     dependencies {
-        compile enforcedPlatform("io.quarkus:quarkus-bom:${quarkusVersion}")
-        
         //project
 //        sans objet
         
         //lixbox
-        compile(group: 'fr.lixbox.lixbox-io', name: 'lixbox-json', version: version_lixbox_io){ 
+        api(group: 'fr.lixbox.lixbox-io', name: 'lixbox-json', version: version_lixbox_io){ 
             exclude(group:'fr.lixbox')
         }
         
         //quarkus
-        compile group: 'io.quarkus', name: 'quarkus-undertow'
+        implementation group: 'io.quarkus', name: 'quarkus-undertow', version: quarkusVersion
         
         //TEST
-        testCompile group:'io.quarkus', name: 'quarkus-junit5'
-        testCompile group:'io.rest-assured', name: 'rest-assured', version: '3.3.0'
-        testCompile group: 'io.quarkus', name: 'quarkus-rest-client', version: quarkusVersion
+        testImplementation group:'io.quarkus', name: 'quarkus-junit5', version: quarkusVersion
+        testImplementation group:'io.rest-assured', name: 'rest-assured', version: '3.3.0'
+        testImplementation group: 'io.quarkus', name: 'quarkus-rest-client', version: quarkusVersion
     }
     
     jar{
@@ -61,6 +59,8 @@ project(':lixbox-cache-ui'){
            property "sonar.tests","src/test, src/integTest"
         }
     }
+    
+    dependencyCheck.skip=true
 
     test {
       useJUnitPlatform()
@@ -77,7 +77,6 @@ project(':lixbox-cache-ui'){
         inputs.files fileTree('src')
     
         inputs.file 'package.json'
-//        inputs.file 'package-lock.json'
     }
     
     task copyNpm(type: Copy) {
@@ -151,4 +150,12 @@ project(':lixbox-cache-ui'){
     pushProjectImages.dependsOn buildProjectImages
     buildAndPushDockerImages.dependsOn pushProjectImages
     tasks.clean.dependsOn tasks.npmInstall
+    tasks.nodeSetup.dependsOn {
+        def rc = Paths.get(project.buildDir.canonicalPath, '.npmrc').toFile()
+        if(rc.exists())
+        {
+            rc.delete()
+            rc << "strict-ssl=false\n"
+        }
+    }
 }
