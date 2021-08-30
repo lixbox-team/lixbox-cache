@@ -1,5 +1,6 @@
 import com.bmuschko.gradle.docker.tasks.container.*
 import com.bmuschko.gradle.docker.tasks.image.*
+import java.nio.file.Paths;
 plugins {
     id 'com.bmuschko.docker-remote-api' version "${docker_remote_plugins}"
     id "com.github.node-gradle.node" version "3.1.0"
