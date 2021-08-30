@@ -57,7 +57,7 @@ project(':lixbox-cache-ui'){
            property "sonar.projectKey", "${config.desc_project.artefact.group}.${rootProject.name}:${project.name}"
            property "sonar.projectName", "${project.name}"
            property "sonar.sources","src/main"
-           property "sonar.tests","src/test, src/integTest"
+           property "sonar.tests","src/test"
         }
     }
     
