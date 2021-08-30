@@ -1,6 +1,6 @@
 {
   "name": "lixbox-cache",
-  "version": "11.1.1",
+  "version": "11.1.2",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -38,7 +38,9 @@
       "plugin:vue/essential",
       "eslint:recommended"
     ],
-    "rules": {},
+    "rules": {
+      "no-console": "off"
+    },
     "parserOptions": {
       "parser": "babel-eslint"
     }
