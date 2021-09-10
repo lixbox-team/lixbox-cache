@@ -91,10 +91,11 @@ export default {
     },
     async getConfiguration() {
       axios
-        .get("/configuration")
+        .get(process.env.VUE_APP_CONFIGURATION_URI)
         .then(response => response.data)
         .then(data => {
           this.cacheUrl = data.cache;
+          this.getKeys();
         })
         .finally(function() {
           this.loading = false;
@@ -102,7 +103,6 @@ export default {
     },
     initialize() {
       this.getConfiguration();
-      this.getKeys();
     },
     getKeys() {
       this.getCacheService()
@@ -111,7 +111,6 @@ export default {
           this.cacheEntries = data;
         });
     },
-
     select(entry) {
       if (entry.length == 0) {
         this.selected = null;
