@@ -21,7 +21,7 @@
  *   @AUTHOR Lixbox-team
  *
  ******************************************************************************/
-package fr.lixbox.service.cache.provider;
+package fr.lixbox.service.cache.ui.provider;
 
 import java.io.IOException;
 

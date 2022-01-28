@@ -24,6 +24,7 @@
 package fr.lixbox.service.cache.redis;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +49,7 @@ import fr.lixbox.service.registry.model.health.Check;
 import fr.lixbox.service.registry.model.health.ServiceState;
 import fr.lixbox.service.registry.model.health.ServiceStatus;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPooled;
 
 /**
  * Ce service de cache fonctionne sur Redis.
@@ -97,14 +99,10 @@ public class RedisCacheServiceBean implements CacheService
         
         //controle de redis
         if (!StringUtil.isEmpty(redisUri))
-        { 
-            String hostName = redisUri.substring(6,redisUri.lastIndexOf(':'));
-            String port = redisUri.substring(redisUri.lastIndexOf(':')+1);
-            try (
-                Jedis redisClient = new Jedis(hostName, Integer.parseInt(port));
-            )
+        {
+            try (JedisPooled redisClient = new JedisPooled(redisUri))
             {           
-                redisClient.ping();
+                redisClient.keys("*");
                 state.setStatus(ServiceStatus.UP);
                 LOG.debug(SERVICE_REDIS_TEXT+redisUri+" EST DISPONIBLE");
             }
@@ -160,10 +158,11 @@ public class RedisCacheServiceBean implements CacheService
     public List<String> getKeys(String pattern)
     {
         List<String> result=new ArrayList<>();
-        try(Jedis redisClient = getRedisClient())
+        try(Jedis redisClient = new Jedis(redisUri))
         {
             String internamPattern = StringUtil.isEmpty(pattern)?"*":pattern;
             result  = new ArrayList<>(redisClient.keys(internamPattern));
+            Collections.sort(result);
         }
         catch(Exception e)
         {
@@ -185,19 +184,9 @@ public class RedisCacheServiceBean implements CacheService
     public String get(String key)
     {
         String result = "";
-        try(Jedis redisClient = getRedisClient())
+        try(Jedis redisClient = new Jedis(redisUri))
         {
-            if (key!=null)
-            {
-                switch (redisClient.type(key))
-                {
-                    case "string":
-                        result = redisClient.get(key);
-                        break;
-                    default:
-                        LOG.error("UNSUPPORTED FORMAT "+redisClient.type(key));
-                }
-            }
+            result = redisClient.get(key);
         }
         catch(Exception e)
         {
@@ -218,22 +207,12 @@ public class RedisCacheServiceBean implements CacheService
     public boolean remove(String key)
     {
         boolean result=false;
-        try(Jedis redisClient = getRedisClient())
+        try(Jedis redisClient = new Jedis(redisUri))
         {
-            if (key!=null)
+            if (redisClient.del(key)>0)
             {
-                switch (redisClient.type(key))
-                {
-                    case "string":
-                        if (redisClient.del(key)>0)
-                        {
-                            result = true;
-                        } 
-                        break;
-                    default:
-                        LOG.error("UNSUPPORTED FORMAT "+redisClient.type(key));
-                }
-            }
+                result = true;
+            } 
         }
         catch(Exception e)
         {
@@ -254,15 +233,12 @@ public class RedisCacheServiceBean implements CacheService
     public boolean remove(String... keys)
     {
         boolean result=false;
-        try(Jedis redisClient = getRedisClient())
+        try(Jedis redisClient = new Jedis(redisUri))
         {
-            if (keys!=null)
+            if (keys!=null && redisClient.del(keys)>0)
             {
-                if (redisClient.del(keys)>0)
-                {
-                    result = true;
-                } 
-            }
+                result = true;
+            } 
         }
         catch(Exception e)
         {
@@ -284,7 +260,7 @@ public class RedisCacheServiceBean implements CacheService
     public int size(String pattern)
     {
         int result=0;
-        try(Jedis redisClient = getRedisClient())
+        try(Jedis redisClient = new Jedis(redisUri))
         {
             String internamPattern = StringUtil.isEmpty(pattern)?"*":pattern;
             List<String> temp  = new ArrayList<>(redisClient.keys(internamPattern));
@@ -327,7 +303,7 @@ public class RedisCacheServiceBean implements CacheService
     public boolean put(String key, String value)
     {
         boolean result=false;
-        try(Jedis redisClient = getRedisClient())
+        try(Jedis redisClient = new Jedis(redisUri))
         {
             if (!StringUtil.isEmpty(key))
             {
@@ -352,9 +328,9 @@ public class RedisCacheServiceBean implements CacheService
     public boolean clear()
     {
         boolean result=false;
-        try(Jedis redisClient = getRedisClient())
+        try(Jedis redisClient = new Jedis(redisUri))
         {
-            result = getRedisClient().flushAll().contains("OK");
+            redisClient.del(redisClient.keys("*").toArray(new String[0]));
         }
         catch(Exception e)
         {
@@ -377,7 +353,7 @@ public class RedisCacheServiceBean implements CacheService
     public boolean put(Map<String,String> values)
     {
         boolean result=false;
-        try(Jedis redisClient = getRedisClient())
+        try(Jedis redisClient = new Jedis(redisUri))
         {
             
             List<String> tmp = new ArrayList<>();        
@@ -409,9 +385,8 @@ public class RedisCacheServiceBean implements CacheService
     public Map<String, String> get(String... keys)
     {
         Map<String,String> result = new HashMap<>();
-        try(Jedis redisClient = getRedisClient())
+        try(Jedis redisClient = new Jedis(redisUri))
         {
-            
             List<String> values = redisClient.mget(keys);                
             for (int ix=0; ix<keys.length; ix++)
             {
@@ -423,24 +398,5 @@ public class RedisCacheServiceBean implements CacheService
             LOG.fatal(ExceptionUtils.getRootCauseMessage(e),e);
         }
         return result;
-    }
-    
-    
-    
-    private Jedis getRedisClient()
-    {     
-        Jedis redisClient = null;
-        if (!StringUtil.isEmpty(redisUri))
-        {            
-            String hostName = redisUri.substring(6,redisUri.lastIndexOf(':'));
-            String port = redisUri.substring(redisUri.lastIndexOf(':')+1);
-            redisClient = new Jedis(hostName, Integer.parseInt(port));
-            LOG.debug("redisClient is activated");
-        }
-        if(redisClient==null)
-        {
-            throw new ProcessusException("UNABLE TO FIND REDIS");
-        }   
-        return redisClient;
     } 
 }

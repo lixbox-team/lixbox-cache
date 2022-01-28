@@ -31,7 +31,7 @@
             <v-card-text>
               <v-row class="text-align:center" tag="v-card-text">
                 <v-textarea
-                  v-model="selected.value"
+                  :value="toJson(selected.value)"
                   :label="$t('cache.service.entry.value')"
                   :auto-grow="true"
                   :clearable="true"
@@ -75,7 +75,7 @@ export default {
   },
   name: "CacheView",
   data: () => ({
-    cacheUrl: "http://localhost:18101/cache/api/1.0",
+    cacheUrl: process.env.VUE_APP_CACHE_URI,
     cacheEntries: [],
     selected: null,
     dialog: false,
@@ -86,6 +86,9 @@ export default {
     this.initialize();
   },
   methods: {
+    toJson(value){
+      return JSON.stringify(value);
+    },
     getCacheService() {
       return new CacheService(this.cacheUrl);
     },
@@ -95,6 +98,9 @@ export default {
         .then(response => response.data)
         .then(data => {
           this.cacheUrl = data.cache;
+          this.getKeys();
+        })
+        .catch(error =>{
           this.getKeys();
         })
         .finally(function() {
@@ -148,7 +154,7 @@ export default {
     },
     save() {
       this.getCacheService()
-        .put(this.selected.path, this.selected.value)
+        .put(this.selected.path, JSON.parse(this.selected.value))
         .then(data => {
           if (this.new) {
             this.cacheEntries.push(this.selected.path);

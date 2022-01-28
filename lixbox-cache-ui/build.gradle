@@ -14,17 +14,19 @@ project(':lixbox-cache-ui'){
         //project
 //        sans objet
         
+        
         //lixbox
-        api(group: 'fr.lixbox.lixbox-io', name: 'lixbox-json', version: version_lixbox_io){ 
-            exclude(group:'fr.lixbox')
-        }
+        api(group: 'fr.lixbox.lixbox-common', name: 'lixbox-stream', version: version_lixbox_common)
+        api(group: 'fr.lixbox.lixbox-io', name: 'lixbox-json', version: version_lixbox_io)
+        
         
         //quarkus
-        implementation group: 'io.quarkus', name: 'quarkus-undertow', version: quarkusVersion
+        api group: 'io.quarkus', name: 'quarkus-undertow', version: quarkusVersion
+        api group: 'io.quarkus', name: 'quarkus-reactive-routes', version: quarkusVersion
+        
         
         //TEST
         testImplementation group:'io.quarkus', name: 'quarkus-junit5', version: quarkusVersion
-        testImplementation group:'io.rest-assured', name: 'rest-assured', version: '3.3.0'
         testImplementation group: 'io.quarkus', name: 'quarkus-rest-client', version: quarkusVersion
     }
     

@@ -15,12 +15,8 @@ project(":lixbox-cache-core"){
         //lixbox
         api(group: 'fr.lixbox.lixbox-common', name: 'lixbox-core', version: version_lixbox_common)
         api(group: 'fr.lixbox.lixbox-io', name: 'lixbox-json', version: version_lixbox_io)
-        api(group: 'fr.lixbox.lixbox-service', name: 'lixbox-microservice-common', version: version_lixbox_service){ 
-            exclude(group:'fr.lixbox')
-        }
-        compile(group: 'fr.lixbox.lixbox-service', name: 'lixbox-microservice-client', version: version_lixbox_service){ 
-            exclude(group:'fr.lixbox')
-        }
+        api(group: 'fr.lixbox.lixbox-service', name: 'lixbox-microservice-client', version: version_lixbox_service)
+        api(group: 'fr.lixbox.lixbox-orm', name: 'lixbox-redis', version: version_lixbox_orm)
         
         //quarkus
         implementation group: 'io.quarkus', name: 'quarkus-resteasy', version:quarkusVersion
@@ -28,13 +24,9 @@ project(":lixbox-cache-core"){
         implementation group: 'io.quarkus', name: 'quarkus-rest-client', version:quarkusVersion
         implementation group: 'io.quarkus', name: 'quarkus-smallrye-openapi', version:quarkusVersion
         implementation group: 'io.quarkus', name: 'quarkus-logging-gelf', version:quarkusVersion
-
-        //divers
-        implementation group: 'redis.clients', name: 'jedis', version: '3.3.0'
         
         //TEST
         testImplementation group:'io.quarkus', name: 'quarkus-junit5', version:quarkusVersion
-        testImplementation group:'io.rest-assured', name: 'rest-assured', version: '3.3.0'
         testImplementation group: 'io.quarkus', name: 'quarkus-rest-client', version: quarkusVersion
     }
     
