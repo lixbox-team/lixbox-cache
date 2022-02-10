@@ -95,9 +95,8 @@ export default {
     async getConfiguration() {
       axios
         .get(process.env.VUE_APP_CONFIGURATION_URI)
-        .then(response => response.data)
-        .then(data => {
-          this.cacheUrl = data.cache;
+        .then(response => {
+          this.cacheUrl = response.data.cacheApiUri;
           this.getKeys();
         })
         .catch(error =>{
