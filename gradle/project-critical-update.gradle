@@ -9,6 +9,11 @@ subprojects {
                     details.useVersion '4.5.13'
                     details.because 'critical cve in 4.5.12'
             }
+            if (details.requested.group.contains('com.thoughtworks.xstream') && 
+                    details.requested.name.contains('xstream')) {
+                    details.useVersion '1.4.19'
+                    details.because 'critical cve in xstream<1.4.19'
+            }
         }
     }
 }

@@ -60,7 +60,7 @@ public class Routes implements Serializable
     {
         String response = "";
         Map<String,String> config = new HashMap<>();
-        config.put("cache.api.uri", cacheApi);
+        config.put("cacheApiUri", cacheApi);
         response = JsonUtil.transformObjectToJson(config,false);
         
         rc.response()
