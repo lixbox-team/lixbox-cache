@@ -31,7 +31,7 @@
             <v-card-text>
               <v-row class="text-align:center" tag="v-card-text">
                 <v-textarea
-                  :value="toJson(selected.value)"
+                  v-model="jsonValue"
                   :label="$t('cache.service.entry.value')"
                   :auto-grow="true"
                   :clearable="true"
@@ -85,10 +85,19 @@ export default {
   created() {
     this.initialize();
   },
+  computed: {
+    jsonValue: {
+      // getter
+      get: function () {
+        return JSON.stringify(this.selected.value);
+      },
+      // setter
+      set: function (newValue) {
+        this.selected.value=JSON.parse(newValue);
+      }
+    }
+  },
   methods: {
-    toJson(value){
-      return JSON.stringify(value);
-    },
     getCacheService() {
       return new CacheService(this.cacheUrl);
     },
@@ -154,7 +163,7 @@ export default {
     },
     save() {
       this.getCacheService()
-        .put(this.selected.path, JSON.parse(this.selected.value))
+        .put(this.selected.path, this.selected.value)
         .then(data => {
           if (this.new) {
             this.cacheEntries.push(this.selected.path);
