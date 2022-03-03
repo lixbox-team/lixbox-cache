@@ -104,49 +104,49 @@
    <cpe>cpe:/a:mutiny:mutiny</cpe>
 </suppress><suppress>
    <notes><![CDATA[
-   file name: quarkus-resteasy-2.7.0.Final.jar
+   file name: quarkus-resteasy-2.7.2.Final.jar
    ]]></notes>
    <packageUrl regex="true">^pkg:maven/io\.quarkus/quarkus\-resteasy@.*$</packageUrl>
    <cpe>cpe:/a:quarkus:quarkus</cpe>
 </suppress><suppress>
    <notes><![CDATA[
-   file name: quarkus-resteasy-2.7.0.Final.jar
+   file name: quarkus-resteasy-2.7.2.Final.jar
    ]]></notes>
    <packageUrl regex="true">^pkg:maven/io\.quarkus/quarkus\-resteasy@.*$</packageUrl>
    <cpe>cpe:/a:redhat:resteasy</cpe>
 </suppress><suppress>
    <notes><![CDATA[
-   file name: quarkus-resteasy-common-2.7.0.Final.jar
+   file name: quarkus-resteasy-common-2.7.2.Final.jar
    ]]></notes>
    <packageUrl regex="true">^pkg:maven/io\.quarkus/quarkus\-resteasy\-common@.*$</packageUrl>
    <cpe>cpe:/a:quarkus:quarkus</cpe>
 </suppress><suppress>
    <notes><![CDATA[
-   file name: quarkus-resteasy-common-2.7.0.Final.jar
+   file name: quarkus-resteasy-common-2.7.2.Final.jar
    ]]></notes>
    <packageUrl regex="true">^pkg:maven/io\.quarkus/quarkus\-resteasy\-common@.*$</packageUrl>
    <cpe>cpe:/a:redhat:resteasy</cpe>
 </suppress><suppress>
    <notes><![CDATA[
-   file name: quarkus-resteasy-jackson-2.7.0.Final.jar
+   file name: quarkus-resteasy-jackson-2.7.2.Final.jar
    ]]></notes>
    <packageUrl regex="true">^pkg:maven/io\.quarkus/quarkus\-resteasy\-jackson@.*$</packageUrl>
    <cpe>cpe:/a:quarkus:quarkus</cpe>
 </suppress><suppress>
    <notes><![CDATA[
-   file name: quarkus-resteasy-jackson-2.7.0.Final.jar
+   file name: quarkus-resteasy-jackson-2.7.2.Final.jar
    ]]></notes>
    <packageUrl regex="true">^pkg:maven/io\.quarkus/quarkus\-resteasy\-jackson@.*$</packageUrl>
    <cpe>cpe:/a:redhat:resteasy</cpe>
 </suppress><suppress>
    <notes><![CDATA[
-   file name: quarkus-resteasy-server-common-2.7.0.Final.jar
+   file name: quarkus-resteasy-server-common-2.7.2.Final.jar
    ]]></notes>
    <packageUrl regex="true">^pkg:maven/io\.quarkus/quarkus\-resteasy\-server\-common@.*$</packageUrl>
    <cpe>cpe:/a:quarkus:quarkus</cpe>
 </suppress><suppress>
    <notes><![CDATA[
-   file name: quarkus-resteasy-server-common-2.7.0.Final.jar
+   file name: quarkus-resteasy-server-common-2.7.2.Final.jar
    ]]></notes>
    <packageUrl regex="true">^pkg:maven/io\.quarkus/quarkus\-resteasy\-server\-common@.*$</packageUrl>
    <cpe>cpe:/a:redhat:resteasy</cpe>
